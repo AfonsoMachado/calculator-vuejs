@@ -1,6 +1,7 @@
 <template>
                     <!-- Aplicando classes conforme o parametro passado sendo true -->
-  <button class="button" :class="{ double, triple, operation }">
+                    <!-- $emit chama um evento passando o label por parametro, no click-->
+  <button class="button" @click="$emit('onCalcButtonClick', label)" :class="{ double, triple, operation }">
       {{ label }}
   </button>
 </template>
