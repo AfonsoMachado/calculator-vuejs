@@ -49,7 +49,40 @@ export default {
             Object.assign(this.$data, this.$options.data())
         },
         setOperation(operation) {
-            console.log(operation)
+            // Quando estiver usando o primeiro valor do array de valores da operação
+            if (this.current === 0) {
+                this.operation = operation
+                this.current = 1
+                this.clearDisplay = true
+            } else {
+                // Savando a operação quando for =, para finalizar
+                const equals = operation ==="="
+                const currenteOperation = this.operation
+
+                try {
+                    // Realizando operação entre os digitos do array
+                    this.values[0] = eval(
+                        `${this.values[0]} ${currenteOperation} ${this.values[1]}`
+                    )
+                } catch (e) {
+                    this.$emit('onError', e)
+                }
+
+                // Deixando o indice 1 zerado para ficar pronto para outra operação
+                this.values[1] = 0
+
+                // Exeibindo o resultado da operação no display
+                this.displayValue = this.values[0]
+
+                // Se a operação for um = , então recebe nulo indicando que não já mais operações a serem feitas
+                this.operation = equals ? null : operation
+
+                // Se o usuario clicou = , continua usando o primeiro elemento do array, senão passa para o segundo elemento
+                this.current = equals ? 0 : 1
+
+                // Sendo diferente de equals o display é limpo quando o proximo digito for informado
+                this.clearDisplay = !equals
+            }
         },
         addDigit(n) {
             // Validação de um unico ponto
