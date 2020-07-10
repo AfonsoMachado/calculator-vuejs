@@ -1,6 +1,6 @@
 <template>
     <div class="calculator">
-        <Display value="1000"/>
+        <Display :value="displayValue"/>
         <!-- lembrando que triple, operation e double são parametros booleanos -->
         <Button label="AC" triple @onCalcButtonClick="clearMemory" />
         <!-- @ está chamando o evento -->
@@ -29,17 +29,53 @@ import Display from '../components/Display'
 import Button from '../components/Button'
 
 export default {
+    // Estado inicia da calculadora
+    data: function () {
+        return {
+            displayValue: "0",
+            clearDisplay: false,
+            operation: null,
+            // valores para operação na calculadora
+            values: [0, 0],
+            // Valor sendo trabalhado agora
+            current: 0
+        }
+    },
     // Registrando os componentes importados
     components: { Button, Display },
     methods: {
         clearMemory() {
-            console.log('limpar')
+            // Atribuindo no this.data o estado inicial do objeto
+            Object.assign(this.$data, this.$options.data())
         },
         setOperation(operation) {
-            console.log('Operacao' + operation)
+            console.log(operation)
         },
         addDigit(n) {
-            console.log('Digito' + n)
+            // Validação de um unico ponto
+            if (n === '.' && this.displayValue.includes(".")) {
+                return
+            }
+
+            // Casos em que há limpeza no display
+            const clearDisplay = this.displayValue === "0"
+                || this.clearDisplay
+
+            const currentValue = clearDisplay ? "" : this.displayValue
+            const displayValue = currentValue + n
+
+            // Alterando os dados do componente
+            this.displayValue = displayValue
+            this.clearDisplay = false
+
+            //Inserindo no array de valores
+            if (n !== ".") {
+                const i = this.current
+                // Convertendo as string para float
+                const newValue = parseFloat(displayValue)
+                this.values[i] = newValue
+            }
+
         }
     }
 }
