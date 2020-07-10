@@ -1,6 +1,6 @@
 <template>
     <div class="calculator">
-        <Display />
+        <Display value="1000"/>
         <!-- lembrando que triple, operation e double são parametros booleanos -->
         <Button label="AC" triple/>
         <Button label="/" operation/>
@@ -29,7 +29,18 @@ import Button from '../components/Button'
 
 export default {
     // Registrando os componentes importados
-    components: { Button, Display }
+    components: { Button, Display },
+    methods: {
+        clearMemory() {
+            console.log('limpar')
+        },
+        setOperation(operation) {
+            console.log('Operacao' + operation)
+        },
+        addDigit(n) {
+            console.log('Digito' + n)
+        }
+    }
 }
 </script>
 
