@@ -3,7 +3,7 @@
         <Display :value="displayValue"/>
         <!-- lembrando que triple, operation e double são parametros booleanos -->
         <Button label="AC" triple @onCalcButtonClick="clearMemory" />
-        <!-- @ está chamando o evento -->
+        <!-- @onCalcButtonClick vem do evento de click, junto com o parâmetro label, que é passado como parãmetro para a função referente ao evento, no caso é setOperation -->
         <Button label="/" operation @onCalcButtonClick="setOperation" />
         <Button label="7" @onCalcButtonClick="addDigit" />
         <Button label="8" @onCalcButtonClick="addDigit" />
